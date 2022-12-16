@@ -31,7 +31,7 @@ private:
     juce::Label loadLabel;
 
     std::vector<float> mAudioPoints;
-    const float* buffer; 
+   // const float* buffer; 
 
     FirstSamplerAudioProcessor& audioProcessor;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioWave)

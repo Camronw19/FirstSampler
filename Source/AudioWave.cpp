@@ -13,15 +13,14 @@
 
 //==============================================================================
 AudioWave::AudioWave(FirstSamplerAudioProcessor& p)
-    : audioProcessor(p), mShouldBePainting(false), buffer(nullptr)
+    : audioProcessor(p), mShouldBePainting(false) // buffer(nullptr)
 {
     
 }
 
 AudioWave::~AudioWave()
 {
-   // buffer = nullptr; 
-    delete buffer; 
+   // delete buffer; 
 }
 
 void AudioWave::paint (juce::Graphics& g)
@@ -33,17 +32,20 @@ void AudioWave::paint (juce::Graphics& g)
     {
         g.setColour(juce::Colours::yellow); 
         juce::Path a;
+       
 
         mAudioPoints.clear();
-        DBG("HERE IN THE FUNCTION"); 
+    
 
-        auto waveForm = audioProcessor.getWaveForm();
-        auto ratio = waveForm.getNumSamples() / getWidth();
+        juce::AudioSampleBuffer* waveForm = &audioProcessor.getWaveForm();
+        int ratio = waveForm->getNumSamples() / getWidth();
       
-        buffer = (waveForm.getReadPointer(0));
+        
+
+       auto buffer = (waveForm->getReadPointer(0));
         
         //scale audio file to windows x-axis
-        for (int sample = 0; sample < waveForm.getNumSamples(); sample += ratio)
+        for (int sample = 0; sample < waveForm->getNumSamples(); sample += ratio)
         {
             mAudioPoints.push_back(buffer[sample]);
         }
@@ -53,19 +55,20 @@ void AudioWave::paint (juce::Graphics& g)
         //scale y axis                    
         for (int sample = 0; sample < mAudioPoints.size(); ++sample)
         {
-            auto point = juce::jmap<float>(mAudioPoints[sample], -1.0f, 1.0f, 400, 0);
+            auto point = juce::jmap<float>(mAudioPoints[sample], -1.0f, 1.0f, getHeight(), 0);
             a.lineTo(sample, point);
         }
 
         g.strokePath(a, juce::PathStrokeType(1));
         mShouldBePainting = false;
         buffer = nullptr; 
+        waveForm = nullptr; 
     }
     
-
+    
 }
 
 void AudioWave::resized()
 {
-    
+   
 }

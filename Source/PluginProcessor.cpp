@@ -184,11 +184,18 @@ void FirstSamplerAudioProcessor::loadFile()
     if (chooser.browseForFileToOpen())
     {
         juce::File file = chooser.getResult(); 
+
+        //delete mFormatReader; //delete previous file
         mFormatReader = mFormatManager.createReaderFor(file);
 
         juce::BigInteger range; 
         range.setRange(0, 128, true); 
         mSampler.addSound(new juce::SamplerSound("Sample", *mFormatReader, range, 60, 0.1, 0.1, 10)); 
+        
+        //sets the waveform so it can be drawn in audioWave
+        auto sampleLength = static_cast<int> (mFormatReader->lengthInSamples);
+        mWaveForm.setSize(1, sampleLength);
+        mFormatReader->read(&mWaveForm, 0, sampleLength, 0, true, false);
         
     }
 
@@ -201,11 +208,12 @@ void FirstSamplerAudioProcessor::loadFile(const juce::String& path)
     auto file = juce::File(path); 
     mFormatReader = mFormatManager.createReaderFor(file);
 
+    //sets the waveform so it can be drawn in audioWave
     auto sampleLength = static_cast<int> (mFormatReader->lengthInSamples); 
     mWaveForm.setSize(1, sampleLength);
     mFormatReader->read(&mWaveForm, 0, sampleLength, 0, true, false);
 
-    auto buffer = mWaveForm.getReadPointer(0); 
+   //auto buffer = mWaveForm.getReadPointer(0); 
 
     juce::BigInteger range;
     range.setRange(0, 128, true);

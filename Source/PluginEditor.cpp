@@ -13,7 +13,12 @@
 FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSamplerAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), sampleWave(p)
 {
-    mLoadButton.onClick = [&]() { audioProcessor.loadFile(); };
+    mLoadButton.onClick = [&]()
+    {
+        audioProcessor.loadFile(); 
+        sampleWave.PaintWave(true);
+        sampleWave.repaint();
+    };
 
     //load label
     loadLabel.setText("Load a Sound",juce::dontSendNotification); 
@@ -26,6 +31,7 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
  
     //sampleWave
     addAndMakeVisible(sampleWave); 
+
 
 
     setSize (600, 400);
@@ -61,8 +67,14 @@ void FirstSamplerAudioProcessorEditor::resized()
 {
     auto r = getLocalBounds(); 
     loadLabel.setBounds(r.removeFromTop(20)); 
-    mLoadButton.setBounds(r.removeFromTop(20)); 
-    sampleWave.setBounds(r); 
+
+    juce::Rectangle<int> rButton (getWidth() / 2 - 150, (getHeight() - r.getHeight()) + 20, 300, 60);
+    r.removeFromTop(rButton.getHeight() + 20);
+    mLoadButton.setBounds(rButton); 
+    
+    juce::Rectangle<int> rSampWave(getWidth() / 2 - 250, (getHeight() - r.getHeight()) + 20, 500, 200);
+    sampleWave.setBounds(rSampWave); 
+    
 
 }
 

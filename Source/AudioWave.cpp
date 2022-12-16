@@ -13,14 +13,15 @@
 
 //==============================================================================
 AudioWave::AudioWave(FirstSamplerAudioProcessor& p)
-    : audioProcessor (p), mShouldBePainting (false)
+    : audioProcessor(p), mShouldBePainting(false), buffer(nullptr)
 {
     
 }
 
 AudioWave::~AudioWave()
 {
-
+   // buffer = nullptr; 
+    delete buffer; 
 }
 
 void AudioWave::paint (juce::Graphics& g)
@@ -39,7 +40,7 @@ void AudioWave::paint (juce::Graphics& g)
         auto waveForm = audioProcessor.getWaveForm();
         auto ratio = waveForm.getNumSamples() / getWidth();
       
-        auto buffer(waveForm.getReadPointer(0));
+        buffer = (waveForm.getReadPointer(0));
         
         //scale audio file to windows x-axis
         for (int sample = 0; sample < waveForm.getNumSamples(); sample += ratio)
@@ -59,7 +60,6 @@ void AudioWave::paint (juce::Graphics& g)
         g.strokePath(a, juce::PathStrokeType(1));
         mShouldBePainting = false;
         buffer = nullptr; 
-        delete buffer; 
     }
     
 

@@ -23,7 +23,7 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
 
     //load button 
     addAndMakeVisible(mLoadButton); 
-
+ 
     //sampleWave
     addAndMakeVisible(sampleWave); 
 

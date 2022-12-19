@@ -20,12 +20,13 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
         sampleWave.repaint();
     };
 
-
+    /*
     //load label
     loadLabel.setText("Load a Sound",juce::dontSendNotification); 
     loadLabel.setJustificationType(juce::Justification::centred); 
     loadLabel.setColour(juce::Label::backgroundColourId, juce::Colours::grey);
     addAndMakeVisible(loadLabel); 
+    */
 
     //load button 
     addAndMakeVisible(mLoadButton); 
@@ -51,6 +52,7 @@ void FirstSamplerAudioProcessorEditor::paint (juce::Graphics& g)
     
     
     //if a sound is loaded will display "Sound loaded" if a sound is not loaded will display "Load a sound"  
+    /*
     if (audioProcessor.getNumSamplerSounds() > 0)
     {
         loadLabel.setText("Sound Loaded", juce::dontSendNotification);
@@ -58,7 +60,7 @@ void FirstSamplerAudioProcessorEditor::paint (juce::Graphics& g)
     }
     else
         loadLabel.setText("Load a Sound", juce::dontSendNotification);
-
+    */
     
 
 
@@ -67,7 +69,8 @@ void FirstSamplerAudioProcessorEditor::paint (juce::Graphics& g)
 void FirstSamplerAudioProcessorEditor::resized()
 {
     auto r = getLocalBounds(); 
-    loadLabel.setBounds(r.removeFromTop(20)); 
+    //loadLabel.setBounds(r.removeFromTop(20)); 
+    r.removeFromTop(20); 
 
     juce::Rectangle<int> rButton (getWidth() / 2 - 150, (getHeight() - r.getHeight()) + 20, 300, 60);
     r.removeFromTop(rButton.getHeight() + 20);

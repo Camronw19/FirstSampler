@@ -31,7 +31,7 @@ public:
 
 private:
     juce::TextButton mLoadButton { "Load" }; 
-    juce::Label loadLabel; 
+    //juce::Label loadLabel; 
 
     AudioWave sampleWave; 
 

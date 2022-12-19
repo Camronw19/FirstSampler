@@ -35,6 +35,11 @@ private:
 
     AudioWave sampleWave; 
 
+    //sliders
+    juce::Slider mAttackSlider, mDecaySlider, mSustainSlider, mReleaseSlider; 
+    //slider labels
+    juce::Label mAttackLabel, mDecayLabel, mSustainLabel, mReleaseLabel; 
+
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     FirstSamplerAudioProcessor& audioProcessor;

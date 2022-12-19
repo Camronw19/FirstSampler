@@ -34,9 +34,54 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     //sampleWave
     addAndMakeVisible(sampleWave); 
 
+    //sliders + Labels
+        //attack
+    mAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+    mAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20); 
+    mAttackSlider.setRange(0.0f, 5.0f, 0.01); 
+    addAndMakeVisible(mAttackSlider); 
+
+    mAttackLabel.setFont(15.0f); 
+    mAttackLabel.setText("Attack", juce::dontSendNotification); 
+    mAttackLabel.setJustificationType(juce::Justification::centredTop); 
+    mAttackLabel.attachToComponent(&mAttackSlider, false); 
+
+        //Decay
+    mDecaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+    mDecaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mDecaySlider.setRange(0.0f, 5.0f, 0.01);
+    addAndMakeVisible(mDecaySlider);
+
+    mDecayLabel.setFont(15.0f);
+    mDecayLabel.setText("Decay", juce::dontSendNotification);
+    mDecayLabel.setJustificationType(juce::Justification::centredTop);
+    mDecayLabel.attachToComponent(&mDecaySlider, false);
+
+        //Sustain
+    mSustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+    mSustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mSustainSlider.setRange(0.0f, 5.0f, 0.01);
+    addAndMakeVisible(mSustainSlider);
+
+    mSustainLabel.setFont(15.0f);
+    mSustainLabel.setText("Sustain", juce::dontSendNotification);
+    mSustainLabel.setJustificationType(juce::Justification::centredTop);
+    mSustainLabel.attachToComponent(&mSustainSlider, false);
+
+        //Release
+    mReleaseSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+    mReleaseSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mReleaseSlider.setRange(0.0f, 5.0f, 0.01);
+    addAndMakeVisible(mReleaseSlider);
+
+    mReleaseLabel.setFont(15.0f);
+    mReleaseLabel.setText("Release", juce::dontSendNotification);
+    mReleaseLabel.setJustificationType(juce::Justification::centredTop);
+    mReleaseLabel.attachToComponent(&mReleaseSlider, false);
 
 
-    setSize (600, 400);
+
+    setSize (600, 500);
 }
 
 FirstSamplerAudioProcessorEditor::~FirstSamplerAudioProcessorEditor()
@@ -70,14 +115,21 @@ void FirstSamplerAudioProcessorEditor::resized()
 {
     auto r = getLocalBounds(); 
     //loadLabel.setBounds(r.removeFromTop(20)); 
-    r.removeFromTop(20); 
+    r.removeFromTop(10); 
 
-    juce::Rectangle<int> rButton (getWidth() / 2 - 150, (getHeight() - r.getHeight()) + 20, 300, 60);
+    juce::Rectangle<int> rButton (getWidth() / 2 - getWidth() / 4, (getHeight() - r.getHeight()) + 10, 300, 60);
     r.removeFromTop(rButton.getHeight() + 20);
     mLoadButton.setBounds(rButton); 
     
-    juce::Rectangle<int> rSampWave(getWidth() / 2 - 250, (getHeight() - r.getHeight()) + 20, 500, 200);
+    juce::Rectangle<int> rSampWave(getWidth() / 2 - getWidth() / 2.4, (getHeight() - r.getHeight()) + 20, 500, 200);
+    r.removeFromTop(rSampWave.getHeight() + 40);
     sampleWave.setBounds(rSampWave); 
+
+    juce::Rectangle<int> rSliders(getWidth() / 2 - getWidth() / 2.4, (getHeight() - r.getHeight()) + 20, 500, 100);
+    mAttackSlider.setBounds(rSliders.removeFromLeft(rSliders.getWidth() / 4));
+    mDecaySlider.setBounds(rSliders.removeFromLeft(rSliders.getWidth() / 3));
+    mSustainSlider.setBounds(rSliders.removeFromLeft(rSliders.getWidth() / 2));
+    mReleaseSlider.setBounds(rSliders.removeFromLeft(rSliders.getWidth() ));
     
 
 }

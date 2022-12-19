@@ -20,6 +20,7 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
         sampleWave.repaint();
     };
 
+
     //load label
     loadLabel.setText("Load a Sound",juce::dontSendNotification); 
     loadLabel.setJustificationType(juce::Justification::centred); 

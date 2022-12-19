@@ -25,24 +25,24 @@ AudioWave::~AudioWave()
 
 void AudioWave::paint (juce::Graphics& g)
 {
-       g.fillAll (juce::Colours::cadetblue);   // clear the background
+       juce::Rectangle<float> window, windowFill; 
+       window.setBounds(0, 0, getWidth(), getHeight());
+       windowFill.setBounds(2, 2, getWidth() - 4, getHeight() - 4);
 
+       g.setColour(juce::Colours::cadetblue);
+       g.fillRoundedRectangle(windowFill, 5); 
+
+      
     
     if (mShouldBePainting)
     {
         g.setColour(juce::Colours::yellow); 
         juce::Path a;
-       
 
         mAudioPoints.clear();
-    
-
-        juce::AudioSampleBuffer* waveForm = &audioProcessor.getWaveForm();
+        juce::AudioSampleBuffer* waveForm = &audioProcessor.getWaveForm(); //pointer ro wave form
+        auto buffer = (waveForm->getReadPointer(0)); //read only pointer to wave form 
         int ratio = waveForm->getNumSamples() / getWidth();
-      
-        
-
-       auto buffer = (waveForm->getReadPointer(0));
         
         //scale audio file to windows x-axis
         for (int sample = 0; sample < waveForm->getNumSamples(); sample += ratio)
@@ -50,7 +50,7 @@ void AudioWave::paint (juce::Graphics& g)
             mAudioPoints.push_back(buffer[sample]);
         }
      
-        a.startNewSubPath(0, getHeight() / 2);
+        a.startNewSubPath(5, getHeight() / 2);
 
         //scale y axis                    
         for (int sample = 0; sample < mAudioPoints.size(); ++sample)
@@ -64,6 +64,9 @@ void AudioWave::paint (juce::Graphics& g)
         buffer = nullptr; 
         waveForm = nullptr; 
     }
+
+    g.setColour(juce::Colours::black);
+    g.drawRoundedRectangle(window, 10, 3);
     
     
 }

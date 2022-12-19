@@ -185,7 +185,9 @@ void FirstSamplerAudioProcessor::loadFile()
     {
         juce::File file = chooser.getResult(); 
 
-        //delete mFormatReader; //delete previous file
+        if (mFormatReader != nullptr)
+            delete mFormatReader; //delete previous file
+        
         mFormatReader = mFormatManager.createReaderFor(file);
 
         juce::BigInteger range; 
@@ -206,6 +208,10 @@ void FirstSamplerAudioProcessor::loadFile(const juce::String& path)
     mSampler.clearSounds(); 
 
     auto file = juce::File(path); 
+
+    if(mFormatReader != nullptr)
+        delete mFormatReader; //delete previous file
+
     mFormatReader = mFormatManager.createReaderFor(file);
 
     //sets the waveform so it can be drawn in audioWave
@@ -213,7 +219,6 @@ void FirstSamplerAudioProcessor::loadFile(const juce::String& path)
     mWaveForm.setSize(1, sampleLength);
     mFormatReader->read(&mWaveForm, 0, sampleLength, 0, true, false);
 
-   //auto buffer = mWaveForm.getReadPointer(0); 
 
     juce::BigInteger range;
     range.setRange(0, 128, true);

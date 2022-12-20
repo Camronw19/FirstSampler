@@ -62,6 +62,7 @@ public:
     int getNumSamplerSounds() { return mSampler.getNumSounds(); }
     juce::AudioBuffer<float>& getWaveForm() { return mWaveForm; }
 
+    juce::AudioProcessorValueTreeState apvts; 
 
 private:
     const int mNumVoices{ 3 }; 
@@ -71,6 +72,8 @@ private:
     juce::AudioFormatManager mFormatManager; 
     juce::AudioFormatReader* mFormatReader { nullptr }; 
 
+
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameters(); 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FirstSamplerAudioProcessor)
 };

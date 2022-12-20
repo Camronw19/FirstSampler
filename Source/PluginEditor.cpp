@@ -34,17 +34,19 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     //sampleWave
     addAndMakeVisible(sampleWave); 
 
-    //sliders + Labels
+    //sliders + Labels ==============================================
         //attack
     mAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20); 
-    mAttackSlider.setRange(0.0f, 5.0f, 0.01); 
+    mAttackSlider.setRange(0.0f, 7.0f, 0.01); 
     addAndMakeVisible(mAttackSlider); 
 
     mAttackLabel.setFont(15.0f); 
     mAttackLabel.setText("Attack", juce::dontSendNotification); 
     mAttackLabel.setJustificationType(juce::Justification::centredTop); 
     mAttackLabel.attachToComponent(&mAttackSlider, false); 
+
+    attackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "ATTACK", mAttackSlider); 
 
         //Decay
     mDecaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
@@ -57,6 +59,8 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     mDecayLabel.setJustificationType(juce::Justification::centredTop);
     mDecayLabel.attachToComponent(&mDecaySlider, false);
 
+    decaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "DECAY", mDecaySlider);
+    
         //Sustain
     mSustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mSustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
@@ -67,6 +71,8 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     mSustainLabel.setText("Sustain", juce::dontSendNotification);
     mSustainLabel.setJustificationType(juce::Justification::centredTop);
     mSustainLabel.attachToComponent(&mSustainSlider, false);
+
+    sustainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SUSTAIN", mSustainSlider);
 
         //Release
     mReleaseSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
@@ -79,6 +85,9 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     mReleaseLabel.setJustificationType(juce::Justification::centredTop);
     mReleaseLabel.attachToComponent(&mReleaseSlider, false);
 
+    releaseSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RELEASE", mReleaseSlider);
+    
+    //==================================================================
 
 
     setSize (600, 500);

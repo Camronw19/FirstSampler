@@ -19,7 +19,8 @@ FirstSamplerAudioProcessor::FirstSamplerAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), apvts (*this, nullptr, "Parameters", createParameters())
+                        
 #endif
 {
     //registers basic audio formats (mp3, wav, etc.) so that you can stream audio
@@ -143,7 +144,9 @@ void FirstSamplerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    
+    auto a = apvts.getRawParameterValue("RELEASE"); 
+    DBG(a->load(), std::endl); 
+
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
@@ -223,6 +226,18 @@ void FirstSamplerAudioProcessor::loadFile(const juce::String& path)
     juce::BigInteger range;
     range.setRange(0, 128, true);
     mSampler.addSound(new juce::SamplerSound("Sample", *mFormatReader, range, 60, 0.1, 0.1, 10.0));
+}
+
+
+juce::AudioProcessorValueTreeState::ParameterLayout FirstSamplerAudioProcessor::createParameters()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params; 
+    
+    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", 0.0f, 5.0f, 0.0f));
+    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 5.0f, 0.0f));
+    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Susatain", 0.0f, 5.0f, 0.0f));
+    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 5.0f, 0.0f));
+    return { params.begin(), params.end() };
 }
 
 //==============================================================================

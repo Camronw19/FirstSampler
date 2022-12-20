@@ -13,7 +13,8 @@
 //==============================================================================
 /**
 */
-class FirstSamplerAudioProcessor  : public juce::AudioProcessor
+class FirstSamplerAudioProcessor  : public juce::AudioProcessor, 
+                                    public juce::ValueTree::Listener
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension
                             #endif
@@ -72,13 +73,16 @@ private:
     const int mNumVoices{ 3 }; 
     juce::AudioBuffer<float> mWaveForm;
 
-    juce::ADSR::Parameters mADSRParameters; 
 
     juce::AudioFormatManager mFormatManager; 
     juce::AudioFormatReader* mFormatReader { nullptr }; 
 
     juce::AudioProcessorValueTreeState mAPVTS; 
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters(); 
+    juce::ADSR::Parameters mADSRParameters; 
+    void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override; 
+
+    std::atomic<bool> mShouldUpdate { false }; 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FirstSamplerAudioProcessor)
 };

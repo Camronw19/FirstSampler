@@ -19,7 +19,7 @@ FirstSamplerAudioProcessor::FirstSamplerAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       ), apvts (*this, nullptr, "Parameters", createParameters())
+                       ), mAPVTS (*this, nullptr, "Parameters", createParameters())
                         
 #endif
 {
@@ -31,6 +31,8 @@ FirstSamplerAudioProcessor::FirstSamplerAudioProcessor()
     {
         mSampler.addVoice(new juce::SamplerVoice); 
     }
+
+    mAPVTS.state.addListener(this); 
 }
 
 FirstSamplerAudioProcessor::~FirstSamplerAudioProcessor()
@@ -145,6 +147,7 @@ void FirstSamplerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
@@ -234,9 +237,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout FirstSamplerAudioProcessor::
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params; 
     
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", 0.0f, 5.0f, 0.0f));
-    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 5.0f, 0.0f));
-    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Susatain", 0.0f, 5.0f, 0.0f));
-    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 5.0f, 0.0f));
+    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 3.0f, 2.0f));
+    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Susatain", 0.0f, 1.0f, 1.0f));
+    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 5.0f, 2.0f));
 
     return { params.begin(), params.end() };
 }
@@ -256,6 +259,11 @@ void FirstSamplerAudioProcessor::updateADSR()
             sound->setEnvelopeParameters(mADSRParameters);
         }
     }
+}
+
+void FirstSamplerAudioProcessor::valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property)
+{
+    updateADSR();
 }
 
 //==============================================================================

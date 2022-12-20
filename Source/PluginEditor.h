@@ -44,6 +44,7 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> releaseSliderAttachment;
     //===========================================================================================
 
+
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     FirstSamplerAudioProcessor& audioProcessor;

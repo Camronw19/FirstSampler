@@ -20,14 +20,6 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
         sampleWave.repaint();
     };
 
-    /*
-    //load label
-    loadLabel.setText("Load a Sound",juce::dontSendNotification); 
-    loadLabel.setJustificationType(juce::Justification::centred); 
-    loadLabel.setColour(juce::Label::backgroundColourId, juce::Colours::grey);
-    addAndMakeVisible(loadLabel); 
-    */
-
     //load button 
     addAndMakeVisible(mLoadButton); 
  
@@ -38,7 +30,6 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
         //attack
     mAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20); 
-    mAttackSlider.setRange(0.0f, 7.0f, 0.01); 
     addAndMakeVisible(mAttackSlider); 
 
     mAttackLabel.setFont(15.0f); 
@@ -46,12 +37,11 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     mAttackLabel.setJustificationType(juce::Justification::centredTop); 
     mAttackLabel.attachToComponent(&mAttackSlider, false); 
 
-    attackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "ATTACK", mAttackSlider); 
+    attackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAPVTS(), "ATTACK", mAttackSlider);
 
         //Decay
     mDecaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mDecaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
-    mDecaySlider.setRange(0.0f, 5.0f, 0.01);
     addAndMakeVisible(mDecaySlider);
 
     mDecayLabel.setFont(15.0f);
@@ -59,12 +49,11 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     mDecayLabel.setJustificationType(juce::Justification::centredTop);
     mDecayLabel.attachToComponent(&mDecaySlider, false);
 
-    decaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "DECAY", mDecaySlider);
+    decaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAPVTS(), "DECAY", mDecaySlider);
     
         //Sustain
     mSustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mSustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
-    mSustainSlider.setRange(0.0f, 5.0f, 0.01);
     addAndMakeVisible(mSustainSlider);
 
     mSustainLabel.setFont(15.0f);
@@ -72,12 +61,11 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     mSustainLabel.setJustificationType(juce::Justification::centredTop);
     mSustainLabel.attachToComponent(&mSustainSlider, false);
 
-    sustainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SUSTAIN", mSustainSlider);
+    sustainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAPVTS(), "SUSTAIN", mSustainSlider);
 
         //Release
     mReleaseSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mReleaseSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
-    mReleaseSlider.setRange(0.0f, 5.0f, 0.01);
     addAndMakeVisible(mReleaseSlider);
 
     mReleaseLabel.setFont(15.0f);
@@ -85,11 +73,10 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     mReleaseLabel.setJustificationType(juce::Justification::centredTop);
     mReleaseLabel.attachToComponent(&mReleaseSlider, false);
 
-    releaseSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RELEASE", mReleaseSlider);
+    releaseSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAPVTS(), "RELEASE", mReleaseSlider);
     
     //==================================================================
-
-
+     
     setSize (600, 500);
 }
 
@@ -101,23 +88,7 @@ FirstSamplerAudioProcessorEditor::~FirstSamplerAudioProcessorEditor()
 //==============================================================================
 void FirstSamplerAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-    
-    
-    //if a sound is loaded will display "Sound loaded" if a sound is not loaded will display "Load a sound"  
-    /*
-    if (audioProcessor.getNumSamplerSounds() > 0)
-    {
-        loadLabel.setText("Sound Loaded", juce::dontSendNotification);
-
-    }
-    else
-        loadLabel.setText("Load a Sound", juce::dontSendNotification);
-    */
-    
-
-
+    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));  
 }
 
 void FirstSamplerAudioProcessorEditor::resized()
@@ -139,8 +110,6 @@ void FirstSamplerAudioProcessorEditor::resized()
     mDecaySlider.setBounds(rSliders.removeFromLeft(rSliders.getWidth() / 3));
     mSustainSlider.setBounds(rSliders.removeFromLeft(rSliders.getWidth() / 2));
     mReleaseSlider.setBounds(rSliders.removeFromLeft(rSliders.getWidth() ));
-    
-
 }
 
 //==============================================================================

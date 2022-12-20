@@ -104,6 +104,7 @@ void FirstSamplerAudioProcessor::changeProgramName (int index, const juce::Strin
 void FirstSamplerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     mSampler.setCurrentPlaybackSampleRate(sampleRate); 
+    updateADSR(); 
 }
 
 void FirstSamplerAudioProcessor::releaseResources()
@@ -144,9 +145,6 @@ void FirstSamplerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    auto a = apvts.getRawParameterValue("RELEASE"); 
-    DBG(a->load(), std::endl); 
-
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
@@ -178,6 +176,9 @@ void FirstSamplerAudioProcessor::setStateInformation (const void* data, int size
     // whose contents will have been created by the getStateInformation() call.
 }
 
+//===============================================================================
+//my methods 
+
 void FirstSamplerAudioProcessor::loadFile()
 {
     mSampler.clearSounds();
@@ -203,7 +204,6 @@ void FirstSamplerAudioProcessor::loadFile()
         mWaveForm.setSize(1, sampleLength);
         mFormatReader->read(&mWaveForm, 0, sampleLength, 0, true, false);
     }
-
 }
 
 void FirstSamplerAudioProcessor::loadFile(const juce::String& path)
@@ -237,7 +237,25 @@ juce::AudioProcessorValueTreeState::ParameterLayout FirstSamplerAudioProcessor::
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 5.0f, 0.0f));
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Susatain", 0.0f, 5.0f, 0.0f));
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 5.0f, 0.0f));
+
     return { params.begin(), params.end() };
+}
+
+void FirstSamplerAudioProcessor::updateADSR()
+{
+    mADSRParameters.attack = mAPVTS.getRawParameterValue("ATTACK")->load();
+    mADSRParameters.decay = mAPVTS.getRawParameterValue("DECAY")->load();
+    mADSRParameters.sustain = mAPVTS.getRawParameterValue("SUSTAIN")->load();
+    mADSRParameters.release = mAPVTS.getRawParameterValue("RELEASE")->load();
+   
+    for (int i = 0; i < mSampler.getNumSounds(); i++)
+    {
+        //checks if sound is a sampler or synthesizer sound as synthesizer objects can store both
+        if (auto sound = dynamic_cast<juce::SamplerSound*> (mSampler.getSound(i).get()))
+        {
+            sound->setEnvelopeParameters(mADSRParameters);
+        }
+    }
 }
 
 //==============================================================================

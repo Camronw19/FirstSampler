@@ -30,11 +30,7 @@ public:
     void filesDropped(const juce::StringArray& files, int x, int y) override; 
 
 private:
-
-
     juce::TextButton mLoadButton { "Load" }; 
-    //juce::Label loadLabel; 
-
     AudioWave sampleWave; 
 
     //sliders ==================================================================================
@@ -46,7 +42,6 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> decaySliderAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sustainSliderAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> releaseSliderAttachment;
-
     //===========================================================================================
 
     // This reference is provided as a quick way for your editor to

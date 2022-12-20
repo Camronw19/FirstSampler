@@ -61,18 +61,23 @@ public:
 
     int getNumSamplerSounds() { return mSampler.getNumSounds(); }
     juce::AudioBuffer<float>& getWaveForm() { return mWaveForm; }
+    
+    void updateADSR(); 
+    juce::ADSR::Parameters& getADSRParams() { return mADSRParameters;  }
 
-    juce::AudioProcessorValueTreeState apvts; 
+    juce::AudioProcessorValueTreeState& getAPVTS() { return mAPVTS; }
 
 private:
-    const int mNumVoices{ 3 }; 
-    juce::AudioBuffer<float> mWaveForm; 
     juce::Synthesiser mSampler; 
+    const int mNumVoices{ 3 }; 
+    juce::AudioBuffer<float> mWaveForm;
+
+    juce::ADSR::Parameters mADSRParameters; 
 
     juce::AudioFormatManager mFormatManager; 
     juce::AudioFormatReader* mFormatReader { nullptr }; 
 
-
+    juce::AudioProcessorValueTreeState mAPVTS; 
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters(); 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FirstSamplerAudioProcessor)

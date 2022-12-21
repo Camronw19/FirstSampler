@@ -14,10 +14,16 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="fKprbt" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <FILE id="MXYnsR" name="ADSR_Sliders.cpp" compile="1" resource="0"
+          file="Source/ADSR_Sliders.cpp"/>
+    <FILE id="KS9HiH" name="ADSR_Sliders.h" compile="0" resource="0" file="Source/ADSR_Sliders.h"/>
     <FILE id="BNZLxP" name="AudioWave.cpp" compile="1" resource="0" file="Source/AudioWave.cpp"/>
     <FILE id="PcrP53" name="AudioWave.h" compile="0" resource="0" file="Source/AudioWave.h"/>
     <FILE id="e15iW4" name="CustomLF.cpp" compile="1" resource="0" file="Source/CustomLF.cpp"/>
     <FILE id="lsElRv" name="CustomLF.h" compile="0" resource="0" file="Source/CustomLF.h"/>
+    <FILE id="ER2xXC" name="WaveThumbnail.cpp" compile="1" resource="0"
+          file="Source/WaveThumbnail.cpp"/>
+    <FILE id="Idumd1" name="WaveThumbnail.h" compile="0" resource="0" file="Source/WaveThumbnail.h"/>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>

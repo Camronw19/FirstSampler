@@ -182,7 +182,7 @@ void FirstSamplerAudioProcessor::setStateInformation (const void* data, int size
 //===============================================================================
 //my methods 
 
-void FirstSamplerAudioProcessor::loadFile()
+juce::String FirstSamplerAudioProcessor::loadFile()
 {
     mSampler.clearSounds();
 
@@ -206,7 +206,9 @@ void FirstSamplerAudioProcessor::loadFile()
         auto sampleLength = static_cast<int> (mFormatReader->lengthInSamples);
         mWaveForm.setSize(1, sampleLength);
         mFormatReader->read(&mWaveForm, 0, sampleLength, 0, true, false);
+        return file.getFileNameWithoutExtension(); 
     }
+    return ""; 
 }
 
 void FirstSamplerAudioProcessor::loadFile(const juce::String& path)

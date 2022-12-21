@@ -15,7 +15,8 @@
 //==============================================================================
 /*
 */ 
-class AudioWave  : public juce::Component
+class AudioWave  : public juce::Component,
+                   public juce::FileDragAndDropTarget
 {
 public:
     AudioWave(FirstSamplerAudioProcessor& p);
@@ -23,12 +24,16 @@ public:
 
     void paint (juce::Graphics&) override;
     void resized() override;
-    void PaintWave(bool x) { mShouldBePainting = x; }
+
+    bool isInterestedInFileDrag(const juce::StringArray& files) override;
+    void filesDropped(const juce::StringArray& files, int x, int y) override;
+    void setFileName(juce::String F) { mFileName = F; }
 
 private:
     bool mShouldBePainting;
     juce::TextButton mLoadButton{ "Load" };
     juce::Label loadLabel;
+    juce::String mFileName { "" }; 
 
     std::vector<float> mAudioPoints;
    // const float* buffer; 

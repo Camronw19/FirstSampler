@@ -25,22 +25,22 @@ AudioWave::~AudioWave()
 
 void AudioWave::paint (juce::Graphics& g)
 {
-       juce::Rectangle<float> window, windowFill; 
-       window.setBounds(0, 0, getWidth(), getHeight());
-       windowFill.setBounds(2, 2, getWidth() - 4, getHeight() - 4);
+    juce::Rectangle<float> window, windowFill; 
+    window.setBounds(0, 0, getWidth(), getHeight());
+    windowFill.setBounds(2, 2, getWidth() - 4, getHeight() - 4);
 
-       g.setColour(juce::Colours::cadetblue);
-       g.fillRoundedRectangle(windowFill, 5); 
+    g.setColour(juce::Colours::cadetblue);
+    g.fillRoundedRectangle(windowFill, 5); 
 
-      
     
-    if (mShouldBePainting)
+    juce::AudioSampleBuffer* waveForm = &audioProcessor.getWaveForm(); //pointer ro wave form
+    
+    if (waveForm->getNumSamples() > 0)
     {
         g.setColour(juce::Colours::yellow); 
         juce::Path a;
 
         mAudioPoints.clear();
-        juce::AudioSampleBuffer* waveForm = &audioProcessor.getWaveForm(); //pointer ro wave form
         auto buffer = (waveForm->getReadPointer(0)); //read only pointer to wave form 
         int ratio = waveForm->getNumSamples() / getWidth();
         
@@ -63,6 +63,11 @@ void AudioWave::paint (juce::Graphics& g)
         mShouldBePainting = false;
         buffer = nullptr; 
         waveForm = nullptr; 
+
+        g.setColour(juce::Colours::white); 
+        g.setFont(15.0f); 
+        auto textBounds = getLocalBounds().reduced(10, 10); 
+        g.drawFittedText(mFileName, textBounds, juce::Justification::topRight, 1); 
     }
 
     g.setColour(juce::Colours::black);
@@ -74,4 +79,33 @@ void AudioWave::paint (juce::Graphics& g)
 void AudioWave::resized()
 {
    
+}
+
+bool AudioWave::isInterestedInFileDrag(const juce::StringArray& files)
+{
+    for (auto file : files)
+    {
+        if (file.contains(".wav") || file.contains(".mp3") || file.contains(".aif"))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void AudioWave::filesDropped(const juce::StringArray& files, int x, int y)
+{
+    for (auto file : files)
+    {
+        if (isInterestedInFileDrag(file))
+        {
+            //get file name to paint
+            auto myFile = std::make_unique<juce::File>(file); 
+            mFileName = myFile->getFileNameWithoutExtension(); 
+
+            //load this file 
+            audioProcessor.loadFile(file); 
+            repaint(); 
+        }
+    }
 }

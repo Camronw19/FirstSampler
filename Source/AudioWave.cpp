@@ -64,10 +64,18 @@ void AudioWave::paint (juce::Graphics& g)
         buffer = nullptr; 
         waveForm = nullptr; 
 
+
+        //playhead
         g.setColour(juce::Colours::white); 
         g.setFont(15.0f); 
         auto textBounds = getLocalBounds().reduced(10, 10); 
-        g.drawFittedText(mFileName, textBounds, juce::Justification::topRight, 1); 
+        g.drawFittedText(mFileName, textBounds, juce::Justification::topRight, 1);
+
+        auto playheadPosition = juce::jmap<int>(audioProcessor.getSampleCount(),
+            0, audioProcessor.getWaveForm().getNumSamples(), 0, getWidth());
+
+        g.setColour(juce::Colours::white); 
+        g.drawLine(playheadPosition, 0, playheadPosition, getHeight(), 2.0f);
     }
 
     g.setColour(juce::Colours::black);

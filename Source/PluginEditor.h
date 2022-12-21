@@ -16,7 +16,8 @@
 //==============================================================================
 /**
 */
-class FirstSamplerAudioProcessorEditor  : public juce::AudioProcessorEditor
+class FirstSamplerAudioProcessorEditor  : public juce::AudioProcessorEditor, 
+                                          public juce::Timer
                                           
 {
 public:
@@ -27,15 +28,12 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    void timerCallback() override; 
 
 private:
     WaveThumbnail mWaveThumbnail;
     ADSR_Sliders mADSRSliders; 
     
-
-
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
     FirstSamplerAudioProcessor& audioProcessor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FirstSamplerAudioProcessorEditor)

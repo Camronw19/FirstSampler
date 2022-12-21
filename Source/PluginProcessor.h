@@ -57,7 +57,7 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    juce::String loadFile();
+    juce::String loadFile(); 
     void loadFile(const juce::String& path); 
 
     int getNumSamplerSounds() { return mSampler.getNumSounds(); }
@@ -65,14 +65,15 @@ public:
     
     void updateADSR(); 
     juce::ADSR::Parameters& getADSRParams() { return mADSRParameters;  }
-
     juce::AudioProcessorValueTreeState& getAPVTS() { return mAPVTS; }
+
+    std::atomic<bool>& isNotePlayed() { return mIsNotePlayed; }
+    std::atomic<int>& getSampleCount() { return mSampleCount; }
 
 private:
     juce::Synthesiser mSampler; 
     const int mNumVoices{ 3 }; 
     juce::AudioBuffer<float> mWaveForm;
-
 
     juce::AudioFormatManager mFormatManager; 
     juce::AudioFormatReader* mFormatReader { nullptr }; 
@@ -82,7 +83,9 @@ private:
     juce::ADSR::Parameters mADSRParameters; 
     void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override; 
 
-    std::atomic<bool> mShouldUpdate { false }; 
+
+    std::atomic<bool> mIsNotePlayed{ false }; 
+    std::atomic<int> mSampleCount{ 0 }; 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FirstSamplerAudioProcessor)
 };

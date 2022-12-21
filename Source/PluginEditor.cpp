@@ -14,15 +14,17 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     : AudioProcessorEditor (&p), audioProcessor (p), mWaveThumbnail(p), mADSRSliders(p)
 {
     addAndMakeVisible(mWaveThumbnail); 
-
     addAndMakeVisible(mADSRSliders);
+
+    startTimerHz(30); 
+
 
     setSize (600, 500);
 }
 
 FirstSamplerAudioProcessorEditor::~FirstSamplerAudioProcessorEditor()
 {
-    
+    stopTimer();
 }
 
 //==============================================================================
@@ -48,3 +50,11 @@ void FirstSamplerAudioProcessorEditor::resized()
 }
 
 //==============================================================================
+
+void FirstSamplerAudioProcessorEditor::timerCallback()
+{
+    if (audioProcessor.isNotePlayed())
+    {
+        mWaveThumbnail.getChildComponent(1)->repaint(); 
+    }
+}

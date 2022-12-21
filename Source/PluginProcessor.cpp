@@ -151,6 +151,28 @@ void FirstSamplerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
+
+
+
+    juce::MidiMessage m; 
+    juce::MidiBuffer::Iterator it{ midiMessages }; 
+    int sample; 
+
+    while (it.getNextEvent(m, sample))
+    {
+        if (m.isNoteOn())
+        {
+            mIsNotePlayed = true; 
+        }
+        else if (m.isNoteOff())
+        {
+            mIsNotePlayed = false; 
+        }
+    }
+
+    mSampleCount = mIsNotePlayed ? mSampleCount += buffer.getNumSamples() : 0; 
+
+
     mSampler.renderNextBlock(buffer, midiMessages,0,buffer.getNumSamples()); 
 }
 

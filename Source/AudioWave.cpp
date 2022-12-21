@@ -50,13 +50,13 @@ void AudioWave::paint (juce::Graphics& g)
             mAudioPoints.push_back(buffer[sample]);
         }
      
-        a.startNewSubPath(5, getHeight() / 2);
+        a.startNewSubPath(2, getHeight() / 2);
 
         //scale y axis                    
         for (int sample = 0; sample < mAudioPoints.size(); ++sample)
         {
             auto point = juce::jmap<float>(mAudioPoints[sample], -1.0f, 1.0f, getHeight(), 0);
-            a.lineTo(sample, point);
+            a.lineTo(sample + 2, point);
         }
 
         g.strokePath(a, juce::PathStrokeType(1));
@@ -72,10 +72,13 @@ void AudioWave::paint (juce::Graphics& g)
 
         //playhead
         auto playheadPosition = juce::jmap<int>(audioProcessor.getSampleCount(),
-            0, audioProcessor.getWaveForm().getNumSamples(), 0, getWidth());
+            0, audioProcessor.getWaveForm().getNumSamples(), 3, getWidth());
 
         g.setColour(juce::Colours::white); 
-        g.drawLine(playheadPosition, 0, playheadPosition, getHeight(), 2.0f);
+        g.drawLine(playheadPosition, 2, playheadPosition, getHeight() - 2, 2.0f);
+
+        g.setColour(juce::Colours::black.withAlpha(0.2f));
+        g.fillRect(2,2,playheadPosition, getHeight() - 2); 
     }
 
     g.setColour(juce::Colours::black);

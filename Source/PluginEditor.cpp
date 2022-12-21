@@ -53,8 +53,19 @@ void FirstSamplerAudioProcessorEditor::resized()
 
 void FirstSamplerAudioProcessorEditor::timerCallback()
 {
+    static bool ResetPlayhead = false; 
+
     if (audioProcessor.isNotePlayed())
     {
         mWaveThumbnail.getChildComponent(1)->repaint(); 
+        ResetPlayhead = true; 
+    }
+    else
+    {
+        if (ResetPlayhead)
+        {
+            mWaveThumbnail.getChildComponent(1)->repaint();
+            ResetPlayhead = false; 
+        }
     }
 }

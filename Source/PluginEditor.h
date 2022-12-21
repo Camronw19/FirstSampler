@@ -30,7 +30,7 @@ public:
 
 private:
     WaveThumbnail mWaveThumbnail;
-    ADSR_Sliders sliders; 
+    ADSR_Sliders mADSRSliders; 
     
 
 

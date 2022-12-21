@@ -11,11 +11,11 @@
 
 //==============================================================================
 FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSamplerAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), mWaveThumbnail(p), sliders(p)
+    : AudioProcessorEditor (&p), audioProcessor (p), mWaveThumbnail(p), mADSRSliders(p)
 {
     addAndMakeVisible(mWaveThumbnail); 
 
-    addAndMakeVisible(sliders); 
+    addAndMakeVisible(mADSRSliders);
 
     setSize (600, 500);
 }
@@ -40,10 +40,10 @@ void FirstSamplerAudioProcessorEditor::resized()
     
     juce::Rectangle<int> rSampWave(50, (getHeight() - r.getHeight()) + 20, getWidth() - 100, getHeight()/ 1.8);
     mWaveThumbnail.setBounds(rSampWave);
-    r.removeFromTop(rSampWave.getHeight() + 40);
+    r.removeFromTop(rSampWave.getHeight() + 30);
 
-    juce::Rectangle<int> rSliders(75, (getHeight() - r.getHeight()), getWidth() - 150, r.getHeight() - 20); 
-    sliders.setBounds(rSliders);
+    juce::Rectangle<int> rSliders(75, (getHeight() - r.getHeight()), getWidth() - 150, r.getHeight() - 60); 
+    mADSRSliders.setBounds(rSliders);
     //r.removeFromTop(rSliders.getHeight() + 20); 
 }
 

@@ -78,22 +78,18 @@ void ADSR_Sliders::paint (juce::Graphics& g)
 
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
 
-
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
     /*
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("ADSR_Sliders", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
-                */
+    g.setColour (juce::Colours::grey);
+    juce::Rectangle<float> window;
+    window.setBounds(0, 0, getWidth(), getHeight());
+    g.drawRoundedRectangle(window, 5, .5); 
+    */
 }
 
 void ADSR_Sliders::resized()
 {
-    auto r = getBounds(); 
-
+    auto r = getLocalBounds(); 
+    r.removeFromTop(getHeight() / 5);
     mAttackSlider.setBounds(r.removeFromLeft(r.getWidth() / 4));
     mDecaySlider.setBounds(r.removeFromLeft(r.getWidth() / 3));
     mSustainSlider.setBounds(r.removeFromLeft(r.getWidth() / 2));

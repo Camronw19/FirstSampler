@@ -22,7 +22,16 @@ WaveThumbnail::WaveThumbnail(FirstSamplerAudioProcessor& p)
 
     };
 
+    //menu
+    /*
+    mMenu.setColour(juce::TextButton::buttonColourId, juce::Colour::fromRGB(53, 53, 53));
+    mMenu.setColour(juce::TextButton::textColourOffId, juce::Colour::fromRGB(255, 255, 255));
+    addAndMakeVisible(mMenu); 
+    */
+
     //load button 
+    mLoadButton.setColour(juce::TextButton::buttonColourId, juce::Colour::fromRGB(65, 69, 86));
+    mLoadButton.setColour(juce::TextButton::textColourOffId, juce::Colour::fromRGB(255, 255, 255));
     addAndMakeVisible(mLoadButton);
 
     //sampleWave
@@ -42,8 +51,12 @@ void WaveThumbnail::resized()
 {
     auto r = getLocalBounds(); 
 
+    /*
+    juce::Rectangle<int> rMenu(0, 10, getWidth() - 140, getHeight() / 5); 
+    mMenu.setBounds(rMenu); 
+    */
     
-    juce::Rectangle<int> rLoadButton(getWidth() - 90, 10, 90, getHeight() / 5);
+    juce::Rectangle<int> rLoadButton(getWidth() - 110, 10, 110, getHeight() / 5);
     mLoadButton.setBounds(rLoadButton); 
     r.removeFromTop(rLoadButton.getHeight() + 20); 
     

@@ -21,7 +21,7 @@ ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p)
     getLookAndFeel().setColour(juce::Slider::rotarySliderOutlineColourId, juce::Colour::fromRGB(65, 69, 86));
 
     getLookAndFeel().setColour(juce::Slider::textBoxTextColourId, juce::Colour::fromRGB(76, 92, 120));
-    getLookAndFeel().setColour(juce::Slider::textBoxOutlineColourId, juce::Colour::fromRGB(195, 198, 198));
+    getLookAndFeel().setColour(juce::Slider::textBoxOutlineColourId, juce::Colour::fromRGB(223, 225, 228));
 
     getLookAndFeel().setColour(juce::Label::textColourId, juce::Colour::fromRGB(76, 92, 120));
     

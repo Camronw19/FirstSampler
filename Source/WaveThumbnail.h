@@ -26,6 +26,9 @@ public:
     void resized() override;
 
 private:
+    juce::Font mButtonFont{ 16.0f, juce::Font::bold };
+    
+    //juce::TextButton mMenu; 
     juce::TextButton mLoadButton{ "Load" };
     AudioWave sampleWave;
 

@@ -15,7 +15,7 @@
 AudioWave::AudioWave(FirstSamplerAudioProcessor& p)
     : audioProcessor(p), mShouldBePainting(false) // buffer(nullptr)
 {
-    
+
 }
 
 AudioWave::~AudioWave()
@@ -37,7 +37,8 @@ void AudioWave::paint (juce::Graphics& g)
     
     if (waveForm->getNumSamples() > 0)
     {
-        g.setColour(juce::Colours::yellow); 
+        //wave drawing============================================================
+        g.setColour(juce::Colours::lightgoldenrodyellow); 
         juce::Path a;
 
         mAudioPoints.clear();
@@ -64,21 +65,37 @@ void AudioWave::paint (juce::Graphics& g)
         buffer = nullptr; 
         waveForm = nullptr; 
 
-
+        //file name================================================================
         g.setColour(juce::Colours::white); 
         g.setFont(15.0f); 
         auto textBounds = getLocalBounds().reduced(10, 10); 
         g.drawFittedText(mFileName, textBounds, juce::Justification::topRight, 1);
 
-        //playhead
+        //playhead=================================================================
+
         auto playheadPosition = juce::jmap<int>(audioProcessor.getSampleCount(),
             0, audioProcessor.getWaveForm().getNumSamples(), 3, getWidth());
 
-        g.setColour(juce::Colours::white); 
+        g.setColour(juce::Colours::lightgrey); 
         g.drawLine(playheadPosition, 2, playheadPosition, getHeight() - 2, 2.0f);
-
         g.setColour(juce::Colours::black.withAlpha(0.2f));
-        g.fillRect(2,2,playheadPosition, getHeight() - 2); 
+        g.fillRect(2,2,playheadPosition - 2, getHeight() - 2); 
+
+        if (playheadPosition > 6)
+        {
+            g.setColour(juce::Colours::lightgrey);
+            juce::Path playheadHead; 
+            playheadHead.startNewSubPath(playheadPosition - 4, 2); 
+            //auto pPoint = (playheadPosition + 4, 2); 
+            playheadHead.lineTo(playheadPosition + 6, 2);
+            playheadHead.lineTo(playheadPosition, 9);
+            playheadHead.lineTo(playheadPosition - 6, 2);
+            g.strokePath(playheadHead, juce::PathStrokeType(1));
+            g.fillPath(playheadHead); 
+        }
+
+
+        //=========================================================================
     }
 
     g.setColour(juce::Colours::black);
@@ -89,7 +106,7 @@ void AudioWave::paint (juce::Graphics& g)
 
 void AudioWave::resized()
 {
-   
+    
 }
 
 bool AudioWave::isInterestedInFileDrag(const juce::StringArray& files)

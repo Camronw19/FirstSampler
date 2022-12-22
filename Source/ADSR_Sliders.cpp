@@ -16,6 +16,8 @@ ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p)
     : audioProcessor(p)
 {
     //sliders + Labels ==============================================
+    getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::lightgoldenrodyellow);
+
            //attack
     mAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);

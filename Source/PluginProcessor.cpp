@@ -37,7 +37,8 @@ FirstSamplerAudioProcessor::FirstSamplerAudioProcessor()
 
 FirstSamplerAudioProcessor::~FirstSamplerAudioProcessor()
 {
-    delete mFormatReader; 
+    if(mFormatReader != nullptr)
+        delete mFormatReader; 
 }
 
 //==============================================================================

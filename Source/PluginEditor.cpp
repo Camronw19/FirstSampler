@@ -13,6 +13,8 @@
 FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSamplerAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), mWaveThumbnail(p), mADSRSliders(p)
 {
+
+   // getLookAndFeel().setColour(juce::ResizableWindow::backgroundColourId, juce::Colour::fromRGB(81,90,98)); 
     addAndMakeVisible(mWaveThumbnail); 
     addAndMakeVisible(mADSRSliders);
 
@@ -35,6 +37,7 @@ void FirstSamplerAudioProcessorEditor::paint (juce::Graphics& g)
 
 void FirstSamplerAudioProcessorEditor::resized()
 {
+
     auto r = getLocalBounds(); 
     //loadLabel.setBounds(r.removeFromTop(20)); 
     r.removeFromTop(10); 

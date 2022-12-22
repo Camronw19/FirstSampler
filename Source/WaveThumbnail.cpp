@@ -43,7 +43,7 @@ void WaveThumbnail::resized()
     auto r = getLocalBounds(); 
 
     
-    juce::Rectangle<int> rLoadButton(25, 10, getWidth() - 50, getHeight() / 5);
+    juce::Rectangle<int> rLoadButton(getWidth() - 90, 10, 90, getHeight() / 5);
     mLoadButton.setBounds(rLoadButton); 
     r.removeFromTop(rLoadButton.getHeight() + 20); 
     

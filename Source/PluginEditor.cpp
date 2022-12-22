@@ -14,7 +14,7 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     : AudioProcessorEditor (&p), audioProcessor (p), mWaveThumbnail(p), mADSRSliders(p)
 {
 
-   // getLookAndFeel().setColour(juce::ResizableWindow::backgroundColourId, juce::Colour::fromRGB(81,90,98)); 
+   getLookAndFeel().setColour(juce::ResizableWindow::backgroundColourId, juce::Colour::fromRGB(195, 198, 198));
     addAndMakeVisible(mWaveThumbnail); 
     addAndMakeVisible(mADSRSliders);
 

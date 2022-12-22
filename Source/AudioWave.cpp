@@ -29,7 +29,7 @@ void AudioWave::paint (juce::Graphics& g)
     window.setBounds(0, 0, getWidth(), getHeight());
     windowFill.setBounds(2, 2, getWidth() - 4, getHeight() - 4);
 
-    g.setColour(juce::Colours::cadetblue);
+    g.setColour(juce::Colour::fromRGB(45, 49, 66));
     g.fillRoundedRectangle(windowFill, 5); 
 
     
@@ -38,7 +38,7 @@ void AudioWave::paint (juce::Graphics& g)
     if (waveForm->getNumSamples() > 0)
     {
         //wave drawing============================================================
-        g.setColour(juce::Colours::lightgoldenrodyellow); 
+        g.setColour(juce::Colour::fromRGB(246, 133, 84));
         juce::Path a;
 
         mAudioPoints.clear();

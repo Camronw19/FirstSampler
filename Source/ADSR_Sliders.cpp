@@ -16,14 +16,22 @@ ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p)
     : audioProcessor(p)
 {
     //sliders + Labels ==============================================
-    getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::lightgoldenrodyellow);
+    getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colour::fromRGB(246, 133, 84));
+    getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colour::fromRGB(45, 49, 66));
+    getLookAndFeel().setColour(juce::Slider::rotarySliderOutlineColourId, juce::Colour::fromRGB(65, 69, 86));
 
+    getLookAndFeel().setColour(juce::Slider::textBoxTextColourId, juce::Colour::fromRGB(76, 92, 120));
+    getLookAndFeel().setColour(juce::Slider::textBoxOutlineColourId, juce::Colour::fromRGB(195, 198, 198));
+
+    getLookAndFeel().setColour(juce::Label::textColourId, juce::Colour::fromRGB(76, 92, 120));
+    
            //attack
     mAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
     addAndMakeVisible(mAttackSlider);
 
-    mAttackLabel.setFont(15.0f);
+    
+    mAttackLabel.setFont(mSliderFont);
     mAttackLabel.setText("Attack", juce::dontSendNotification);
     mAttackLabel.setJustificationType(juce::Justification::centredTop);
     mAttackLabel.attachToComponent(&mAttackSlider, false);
@@ -35,7 +43,7 @@ ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p)
     mDecaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
     addAndMakeVisible(mDecaySlider);
 
-    mDecayLabel.setFont(15.0f);
+    mDecayLabel.setFont(mSliderFont);
     mDecayLabel.setText("Decay", juce::dontSendNotification);
     mDecayLabel.setJustificationType(juce::Justification::centredTop);
     mDecayLabel.attachToComponent(&mDecaySlider, false);
@@ -47,7 +55,7 @@ ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p)
     mSustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
     addAndMakeVisible(mSustainSlider);
 
-    mSustainLabel.setFont(15.0f);
+    mSustainLabel.setFont(mSliderFont);
     mSustainLabel.setText("Sustain", juce::dontSendNotification);
     mSustainLabel.setJustificationType(juce::Justification::centredTop);
     mSustainLabel.attachToComponent(&mSustainSlider, false);
@@ -59,7 +67,7 @@ ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p)
     mReleaseSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
     addAndMakeVisible(mReleaseSlider);
 
-    mReleaseLabel.setFont(15.0f);
+    mReleaseLabel.setFont(mSliderFont);;
     mReleaseLabel.setText("Release", juce::dontSendNotification);
     mReleaseLabel.setJustificationType(juce::Justification::centredTop);
     mReleaseLabel.attachToComponent(&mReleaseSlider, false);

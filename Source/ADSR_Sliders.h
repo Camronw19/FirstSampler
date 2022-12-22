@@ -26,6 +26,7 @@ public:
     void resized() override;
 
 private:
+    juce::Font mSliderFont{ 16.0f, juce::Font::bold };
     //sliders ==================================================================================
     juce::Slider mAttackSlider, mDecaySlider, mSustainSlider, mReleaseSlider;
     //slider labels

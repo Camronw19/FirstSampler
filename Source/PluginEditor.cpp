@@ -44,6 +44,13 @@ FirstSamplerAudioProcessorEditor::~FirstSamplerAudioProcessorEditor()
 void FirstSamplerAudioProcessorEditor::paint (juce::Graphics& g)
 {
     g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));  
+
+
+    g.setColour(juce::Colour::fromRGB(76, 92, 120));
+    
+
+
+
 }
 
 void FirstSamplerAudioProcessorEditor::resized()
@@ -55,7 +62,7 @@ void FirstSamplerAudioProcessorEditor::resized()
 
     juce::Rectangle<int> rSidePanel(r.removeFromRight(50)); 
 
-    juce::Rectangle<int> rGainSlider(r.getWidth(), getHeight() - r.getHeight() + 85, rSidePanel.getWidth(), getHeight() / 2.1); 
+    juce::Rectangle<int> rGainSlider(r.getWidth(), getHeight() - r.getHeight() + 65, rSidePanel.getWidth(), getHeight() / 1.95); 
     mGainSlider.setBounds(rGainSlider); 
     
     juce::Rectangle<int> rSampWave(50, getHeight() - r.getHeight() + 20, getWidth() - 100, getHeight()/ 1.8);

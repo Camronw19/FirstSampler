@@ -28,8 +28,9 @@ public:
 private:
     juce::Font mButtonFont{ 16.0f, juce::Font::bold };
     
-    //juce::TextButton mMenu; 
+    
     juce::TextButton mLoadButton{ "Load" };
+    juce::ComboBox mPolyMenu; 
     AudioWave sampleWave;
 
     FirstSamplerAudioProcessor& audioProcessor;

@@ -63,6 +63,7 @@ public:
     int getNumSamplerSounds() { return mSampler.getNumSounds(); }
     juce::AudioBuffer<float>& getWaveForm() { return mWaveForm; }
     
+    void updateGain(); 
     void updateADSR(); 
     juce::ADSR::Parameters& getADSRParams() { return mADSRParameters;  }
     juce::AudioProcessorValueTreeState& getAPVTS() { return mAPVTS; }
@@ -81,8 +82,8 @@ private:
     juce::AudioProcessorValueTreeState mAPVTS; 
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters(); 
     juce::ADSR::Parameters mADSRParameters; 
+    float gain; 
     void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override; 
-
 
     std::atomic<bool> mIsNotePlayed{ false }; 
     std::atomic<int> mSampleCount{ 0 }; 

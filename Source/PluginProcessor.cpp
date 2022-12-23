@@ -175,6 +175,7 @@ void FirstSamplerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 
 
     mSampler.renderNextBlock(buffer, midiMessages,0,buffer.getNumSamples()); 
+    
 }
 
 //==============================================================================
@@ -265,6 +266,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout FirstSamplerAudioProcessor::
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 3.0f, 2.0f));
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Susatain", 0.0f, 1.0f, 1.0f));
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 5.0f, 2.0f));
+    params.emplace_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.0f, 1.0f, 0.2f));
+
 
     return { params.begin(), params.end() };
 }
@@ -275,6 +278,7 @@ void FirstSamplerAudioProcessor::updateADSR()
     mADSRParameters.decay = mAPVTS.getRawParameterValue("DECAY")->load();
     mADSRParameters.sustain = mAPVTS.getRawParameterValue("SUSTAIN")->load();
     mADSRParameters.release = mAPVTS.getRawParameterValue("RELEASE")->load();
+
    
     for (int i = 0; i < mSampler.getNumSounds(); i++)
     {
@@ -286,9 +290,16 @@ void FirstSamplerAudioProcessor::updateADSR()
     }
 }
 
+void FirstSamplerAudioProcessor::updateGain()
+{
+    gain = mAPVTS.getRawParameterValue("GAIN")->load(); 
+    DBG(gain); 
+}
+
 void FirstSamplerAudioProcessor::valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property)
 {
     updateADSR();
+    updateGain(); 
 }
 
 //==============================================================================

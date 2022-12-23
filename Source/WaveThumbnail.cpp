@@ -56,7 +56,7 @@ void WaveThumbnail::resized()
     mMenu.setBounds(rMenu); 
     */
     
-    juce::Rectangle<int> rLoadButton(getWidth() - 110, 10, 110, getHeight() / 5);
+    juce::Rectangle<int> rLoadButton(0, 10, 110, getHeight() / 5);
     mLoadButton.setBounds(rLoadButton); 
     r.removeFromTop(rLoadButton.getHeight() + 20); 
     

@@ -14,9 +14,20 @@ FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSampler
     : AudioProcessorEditor (&p), audioProcessor (p), mWaveThumbnail(p), mADSRSliders(p)
 {
 
-   getLookAndFeel().setColour(juce::ResizableWindow::backgroundColourId, juce::Colour::fromRGB(223, 225, 228));
+    getLookAndFeel().setColour(juce::ResizableWindow::backgroundColourId, juce::Colour::fromRGB(223, 225, 228));
     addAndMakeVisible(mWaveThumbnail); 
     addAndMakeVisible(mADSRSliders);
+
+    mGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    mGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    gainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAPVTS(), "GAIN", mGainSlider);
+
+    mGainLabel.setFont(mSliderFont);
+    mGainLabel.setText("Gain", juce::dontSendNotification);
+    mGainLabel.setJustificationType(juce::Justification::centredTop);
+    mGainLabel.attachToComponent(&mGainSlider, false);
+
+    addAndMakeVisible(mGainSlider);
 
     startTimerHz(30); 
 
@@ -39,15 +50,21 @@ void FirstSamplerAudioProcessorEditor::resized()
 {
 
     auto r = getLocalBounds(); 
-    //loadLabel.setBounds(r.removeFromTop(20)); 
+ 
     r.removeFromTop(10); 
 
+    juce::Rectangle<int> rSidePanel(r.removeFromRight(50)); 
+
+    juce::Rectangle<int> rGainSlider(r.getWidth(), getHeight() - r.getHeight() + 85, rSidePanel.getWidth(), getHeight() / 2.1); 
+    mGainSlider.setBounds(rGainSlider); 
     
-    juce::Rectangle<int> rSampWave(50, (getHeight() - r.getHeight()) + 20, getWidth() - 100, getHeight()/ 1.8);
+    juce::Rectangle<int> rSampWave(50, getHeight() - r.getHeight() + 20, getWidth() - 100, getHeight()/ 1.8);
     mWaveThumbnail.setBounds(rSampWave);
     r.removeFromTop(rSampWave.getHeight() + 30);
 
-    juce::Rectangle<int> rSliders(75, (getHeight() - r.getHeight()), getWidth() - 150, r.getHeight() - 60); 
+    
+
+    juce::Rectangle<int> rSliders(75, (getHeight() - r.getHeight()), r.getWidth() - 150, r.getHeight() - 60); 
     mADSRSliders.setBounds(rSliders);
     //r.removeFromTop(rSliders.getHeight() + 20); 
 }

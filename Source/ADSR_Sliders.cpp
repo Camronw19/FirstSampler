@@ -84,16 +84,7 @@ ADSR_Sliders::~ADSR_Sliders()
 
 void ADSR_Sliders::paint (juce::Graphics& g)
 {
-  
-
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    /*
-    g.setColour (juce::Colours::grey);
-    juce::Rectangle<float> window;
-    window.setBounds(0, 0, getWidth(), getHeight());
-    g.drawRoundedRectangle(window, 5, .5); 
-    */
 }
 
 void ADSR_Sliders::resized()

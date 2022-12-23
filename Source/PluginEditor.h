@@ -31,8 +31,14 @@ public:
     void timerCallback() override; 
 
 private:
+    juce::Font mSliderFont{ 16.0f, juce::Font::bold };
+
     WaveThumbnail mWaveThumbnail;
     ADSR_Sliders mADSRSliders; 
+
+    juce::Slider mGainSlider; 
+    juce::Label mGainLabel; 
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainSliderAttachment; 
     
     FirstSamplerAudioProcessor& audioProcessor;
 

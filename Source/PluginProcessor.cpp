@@ -173,8 +173,30 @@ void FirstSamplerAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 
     mSampleCount = mIsNotePlayed ? mSampleCount += buffer.getNumSamples() : 0; 
 
+    /*
+    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    {
+        auto* channelData = buffer.getWritePointer(channel, buffer); 
+
+        for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+        {
+            channelData[sample] = buffer.getSample(channel, sample) * gain; 
+           
+        }
+    }
+    */
 
     mSampler.renderNextBlock(buffer, midiMessages,0,buffer.getNumSamples()); 
+
+    if (currentGain == previousGain)
+    {
+        buffer.applyGain(currentGain);
+    }
+    else
+    {
+        buffer.applyGainRamp(0, buffer.getNumSamples(), previousGain, currentGain); 
+        previousGain = currentGain; 
+    }
     
 }
 
@@ -292,8 +314,7 @@ void FirstSamplerAudioProcessor::updateADSR()
 
 void FirstSamplerAudioProcessor::updateGain()
 {
-    gain = mAPVTS.getRawParameterValue("GAIN")->load(); 
-    DBG(gain); 
+    currentGain = mAPVTS.getRawParameterValue("GAIN")->load();
 }
 
 void FirstSamplerAudioProcessor::valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property)

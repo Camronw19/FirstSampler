@@ -82,11 +82,12 @@ private:
     juce::AudioProcessorValueTreeState mAPVTS; 
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters(); 
     juce::ADSR::Parameters mADSRParameters; 
-    float gain; 
     void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override; 
 
     std::atomic<bool> mIsNotePlayed{ false }; 
     std::atomic<int> mSampleCount{ 0 }; 
+    std::atomic<float> currentGain{.015};
+    float previousGain{ 0 }; 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FirstSamplerAudioProcessor)
 };

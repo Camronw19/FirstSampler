@@ -30,8 +30,8 @@ private:
     
     
     juce::TextButton mLoadButton{ "Load" };
-    juce::ComboBox mPolyMenu; 
     AudioWave sampleWave;
+    juce::ComboBox mPolyMenu; 
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> polyAttachment;
     FirstSamplerAudioProcessor& audioProcessor;

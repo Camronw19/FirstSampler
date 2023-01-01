@@ -97,8 +97,7 @@ void AudioWave::paint (juce::Graphics& g)
        float attack = audioProcessor.getAPVTS().getRawParameterValue("ATTACK")->load();
        float sampleLength = audioProcessor.getSampleLength(); 
        const float lineHeight = getHeight() - getHeight() / 1.5;
-       float attackPoint = ((getWidth() / sampleLength) * attack); 
-       DBG(sampleLength); 
+       float attackPoint = ((getWidth() / sampleLength) * attack) + 5; 
        g.setColour(juce::Colours::white); 
 
        juce::Path ADSR; 

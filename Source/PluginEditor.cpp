@@ -84,14 +84,14 @@ void FirstSamplerAudioProcessorEditor::timerCallback()
 
     if (audioProcessor.isNotePlayed())
     {
-        mWaveThumbnail.getChildComponent(1)->repaint(); 
+        mWaveThumbnail.getChildComponent(2)->repaint(); 
         ResetPlayhead = true; 
     }
     else
     {
         if (ResetPlayhead)
         {
-            mWaveThumbnail.getChildComponent(1)->repaint();
+            mWaveThumbnail.getChildComponent(2)->repaint();
             ResetPlayhead = false; 
         }
     }

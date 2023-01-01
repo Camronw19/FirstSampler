@@ -38,6 +38,7 @@ WaveThumbnail::WaveThumbnail(FirstSamplerAudioProcessor& p)
     mPolyMenu.addItem("4", 4);
     mPolyMenu.setColour(juce::ComboBox::backgroundColourId, juce::Colour::fromRGB(65, 69, 86)); 
     mPolyMenu.setColour(juce::ComboBox::ColourIds::buttonColourId, juce::Colour::fromRGB(65, 69, 86));
+    polyAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getAPVTS(), "POLY", mPolyMenu);
     addAndMakeVisible(mPolyMenu); 
 
     //sampleWave

@@ -95,17 +95,31 @@ void AudioWave::paint (juce::Graphics& g)
 
         //Attack=========================================================================
        float attack = audioProcessor.getAPVTS().getRawParameterValue("ATTACK")->load();
-       float lineHeight = getHeight() - getHeight() / 1.5;
+       float sampleLength = audioProcessor.getSampleLength(); 
+       const float lineHeight = getHeight() - getHeight() / 1.5;
+       float attackPoint = ((getWidth() / sampleLength) * attack); 
+       DBG(sampleLength); 
        g.setColour(juce::Colours::white); 
-       
+
        juce::Path ADSR; 
        ADSR.startNewSubPath(5, getHeight() - 5); 
-       ADSR.lineTo(attack * 20, lineHeight);
-       ADSR.lineTo(getWidth(), lineHeight);
+       
+       if (attackPoint < getWidth() - 20)
+       {
+            ADSR.lineTo(attackPoint, lineHeight);
+            ADSR.lineTo(getWidth(), lineHeight);
+            g.fillEllipse(attackPoint - 5, lineHeight - 5, 10.0f, 10.0f); 
+       }
+       else
+       {
+           ADSR.lineTo(getWidth() - 20, lineHeight);
+           ADSR.lineTo(getWidth(), lineHeight);
+           g.fillEllipse(getWidth() - 20, lineHeight - 5, 10.0f, 10.0f);
+
+       }
        g.strokePath(ADSR, juce::PathStrokeType(1)); 
 
        //Attack circle 
-       g.fillEllipse(attack * 20 - 5, lineHeight - 5, 10.0f, 10.0f); 
     }
 
     g.setColour(juce::Colours::black);

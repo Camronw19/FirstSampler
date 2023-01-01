@@ -72,6 +72,8 @@ public:
     std::atomic<bool>& isNotePlayed() { return mIsNotePlayed; }
     std::atomic<int>& getSampleCount() { return mSampleCount; }
 
+    float getSampleLength() { return mFormatReader->lengthInSamples / getSampleRate(); }
+
 private:
     juce::Synthesiser mSampler; 
     const int mNumVoices{ 3 }; 

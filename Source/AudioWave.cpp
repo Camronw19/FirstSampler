@@ -72,7 +72,6 @@ void AudioWave::paint (juce::Graphics& g)
         g.drawFittedText(mFileName, textBounds, juce::Justification::topRight, 1);
 
         //playhead=================================================================
-
         auto playheadPosition = juce::jmap<int>(audioProcessor.getSampleCount(),
             0, audioProcessor.getWaveForm().getNumSamples(), 3, getWidth());
 
@@ -94,8 +93,19 @@ void AudioWave::paint (juce::Graphics& g)
             g.fillPath(playheadHead); 
         }
 
+        //Attack=========================================================================
+       float attack = audioProcessor.getAPVTS().getRawParameterValue("ATTACK")->load();
+       float lineHeight = getHeight() - getHeight() / 1.5;
+       g.setColour(juce::Colours::white); 
+       
+       juce::Path ADSR; 
+       ADSR.startNewSubPath(5, getHeight() - 5); 
+       ADSR.lineTo(attack * 20, lineHeight);
+       ADSR.lineTo(getWidth(), lineHeight);
+       g.strokePath(ADSR, juce::PathStrokeType(1)); 
 
-        //=========================================================================
+       //Attack circle 
+       g.fillEllipse(attack * 20 - 5, lineHeight - 5, 10.0f, 10.0f); 
     }
 
     g.setColour(juce::Colours::black);

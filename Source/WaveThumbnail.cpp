@@ -19,7 +19,6 @@ WaveThumbnail::WaveThumbnail(FirstSamplerAudioProcessor& p)
     {
         sampleWave.setFileName(audioProcessor.loadFile());
         sampleWave.repaint();
-
     };
 
     //load button 

@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "WaveThumbnail.h"
 
 //==============================================================================
 /*
@@ -19,7 +20,7 @@
 class ADSR_Sliders  : public juce::Component
 {
 public:
-    ADSR_Sliders(FirstSamplerAudioProcessor& p);
+    ADSR_Sliders(FirstSamplerAudioProcessor& p, WaveThumbnail&);
     ~ADSR_Sliders() override;
 
     void paint (juce::Graphics&) override;
@@ -39,5 +40,6 @@ private:
     //===========================================================================================
 
     FirstSamplerAudioProcessor& audioProcessor;
+    WaveThumbnail& m_waveThumbnail; 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ADSR_Sliders)
 };

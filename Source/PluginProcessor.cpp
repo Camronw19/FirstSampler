@@ -329,7 +329,9 @@ void FirstSamplerAudioProcessor::valueTreePropertyChanged(juce::ValueTree& treeW
 {
     updateADSR();
     updateGain(); 
+    
     //updatePoly();
+   
 }
 
 //==============================================================================

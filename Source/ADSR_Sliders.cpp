@@ -12,8 +12,8 @@
 #include "ADSR_Sliders.h"
 
 //==============================================================================
-ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p)
-    : audioProcessor(p)
+ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p, WaveThumbnail& w)
+    : audioProcessor(p), m_waveThumbnail(w)
 {
     //sliders + Labels ==============================================
     getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colour::fromRGB(246, 133, 84));
@@ -75,7 +75,10 @@ ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p)
     releaseSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.getAPVTS(), "RELEASE", mReleaseSlider);
 
     //==================================================================
-
+    mAttackSlider.onValueChange = [&]()
+    {
+        m_waveThumbnail.getChildComponent(2)->repaint(); 
+    };
 }
 
 ADSR_Sliders::~ADSR_Sliders()

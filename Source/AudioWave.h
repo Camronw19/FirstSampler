@@ -28,9 +28,12 @@ public:
     bool isInterestedInFileDrag(const juce::StringArray& files) override;
     void filesDropped(const juce::StringArray& files, int x, int y) override;
     void setFileName(juce::String F) { mFileName = F; }
+    void paintADSR() { mPaintADSR = !mPaintADSR; repaint(); }
+    bool isPaintingADSR() { return mPaintADSR; }
 
 private:
     bool mShouldBePainting;
+    bool mPaintADSR; 
     juce::TextButton mLoadButton{ "Load" };
     juce::Label loadLabel;
     juce::String mFileName { "" }; 

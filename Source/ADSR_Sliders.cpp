@@ -77,7 +77,19 @@ ADSR_Sliders::ADSR_Sliders(FirstSamplerAudioProcessor& p, WaveThumbnail& w)
     //==================================================================
     mAttackSlider.onValueChange = [&]()
     {
-        m_waveThumbnail.getChildComponent(2)->repaint(); 
+        m_waveThumbnail.getChildComponent(3)->repaint(); 
+    };
+    mDecaySlider.onValueChange = [&]()
+    {
+        m_waveThumbnail.getChildComponent(3)->repaint();
+    };
+    mSustainSlider.onValueChange = [&]()
+    {
+        m_waveThumbnail.getChildComponent(3)->repaint();
+    };
+    mReleaseSlider.onValueChange = [&]()
+    {
+        m_waveThumbnail.getChildComponent(3)->repaint();
     };
 }
 

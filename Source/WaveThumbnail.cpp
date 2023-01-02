@@ -24,11 +24,30 @@ WaveThumbnail::WaveThumbnail(FirstSamplerAudioProcessor& p)
     //load button 
     mLoadButton.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colour::fromRGB(65, 69, 86));
     mLoadButton.setColour(juce::TextButton::ColourIds::buttonOnColourId, juce::Colour::fromRGB(65, 69, 86));
-
     mLoadButton.setColour(juce::TextButton::textColourOffId, juce::Colour::fromRGB(255, 255, 255));
     addAndMakeVisible(mLoadButton);
 
-    //poly menu
+    //show adsr button 
+    mShowADSR.setColour(juce::TextButton::ColourIds::buttonColourId, juce::Colour::fromRGB(65, 69, 86));
+    mShowADSR.setColour(juce::TextButton::ColourIds::buttonOnColourId, juce::Colour::fromRGB(65, 69, 86));
+    mShowADSR.setColour(juce::TextButton::textColourOffId, juce::Colour::fromRGB(255, 255, 255));
+    mShowADSR.setButtonText("Show ADSR"); 
+    addAndMakeVisible(mShowADSR);
+
+    mShowADSR.onClick = [&]()
+    {
+        sampleWave.paintADSR(); 
+        if (sampleWave.isPaintingADSR())
+        {
+            mShowADSR.setButtonText("Hide ADSR"); 
+        }
+        else
+        {
+            mShowADSR.setButtonText("Show ADSR");
+        }
+    };
+
+    //poly menuf
     mPolyMenu.setJustificationType(juce::Justification::centred); 
     mPolyMenu.setText("Polyphony"); 
     mPolyMenu.addItem("1", 1);
@@ -62,6 +81,10 @@ void WaveThumbnail::resized()
 
     juce::Rectangle<int> rPolyMenu(130, 10, 150, getHeight() / 8); 
     mPolyMenu.setBounds(rPolyMenu); 
+
+    juce::Rectangle<int> rShowADSR(getWidth() - 110, 10, 110, getHeight() / 8); 
+    mShowADSR.setBounds(rShowADSR); 
+
     r.removeFromTop(rLoadButton.getHeight() + 20); 
     
     juce::Rectangle<int> rSampleWave(getHeight() - r.getHeight(), 10, getWidth() - 20, r.getHeight() - 20);

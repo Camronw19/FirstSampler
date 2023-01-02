@@ -13,7 +13,7 @@
 
 //==============================================================================
 AudioWave::AudioWave(FirstSamplerAudioProcessor& p)
-    : audioProcessor(p), mShouldBePainting(false) // buffer(nullptr)
+    : audioProcessor(p), mShouldBePainting(false), mPaintADSR(false) // buffer(nullptr)
 {
 
 }
@@ -93,32 +93,47 @@ void AudioWave::paint (juce::Graphics& g)
             g.fillPath(playheadHead); 
         }
 
-        //Attack=========================================================================
-       float attack = audioProcessor.getAPVTS().getRawParameterValue("ATTACK")->load();
-       float sampleLength = audioProcessor.getSampleLength(); 
-       const float lineHeight = getHeight() - getHeight() / 1.5;
-       float attackPoint = ((getWidth() / sampleLength) * attack) + 5; 
-       g.setColour(juce::Colours::white); 
+        //ADSR=========================================================================
+        if (mPaintADSR)
+        {
+            float attack = audioProcessor.getAPVTS().getRawParameterValue("ATTACK")->load();
+            float sampleLength = audioProcessor.getSampleLength(); 
+            const float lineHeight = getHeight() - getHeight() / 1.5;
+            float attackPoint = ((getWidth() / sampleLength) * attack) + 5; 
 
-       juce::Path ADSR; 
-       ADSR.startNewSubPath(5, getHeight() - 5); 
+            float decay = audioProcessor.getAPVTS().getRawParameterValue("DECAY")->load();
+            float decayPoint = (attackPoint + (getWidth() / sampleLength) * decay);
+
+            float sustain = 1 -  (audioProcessor.getAPVTS().getRawParameterValue("SUSTAIN")->load());
+            float sustainLine = juce::jmap<float>(sustain, 0, 1, lineHeight, getHeight() - 10);
+
+            g.setColour(juce::Colours::white); 
+            juce::Path ADSR; 
+            ADSR.startNewSubPath(5, getHeight() - 5); 
        
-       if (attackPoint < getWidth() - 20)
-       {
-            ADSR.lineTo(attackPoint, lineHeight);
-            ADSR.lineTo(getWidth(), lineHeight);
-            g.fillEllipse(attackPoint - 5, lineHeight - 5, 10.0f, 10.0f); 
-       }
-       else
-       {
-           ADSR.lineTo(getWidth() - 20, lineHeight);
-           ADSR.lineTo(getWidth(), lineHeight);
-           g.fillEllipse(getWidth() - 20, lineHeight - 5, 10.0f, 10.0f);
+            //attack
+            if (attackPoint < getWidth() - 20)
+            {
+                 ADSR.lineTo(attackPoint, lineHeight);
+                 g.fillEllipse(attackPoint - 5, lineHeight - 5, 10.0f, 10.0f); 
+            }
+            else
+            {
+                ADSR.lineTo(getWidth() - 20, lineHeight);
+                g.fillEllipse(getWidth() - 20, lineHeight - 5, 10.0f, 10.0f);
+            }
 
-       }
-       g.strokePath(ADSR, juce::PathStrokeType(1)); 
+            //decay
+            ADSR.lineTo(decayPoint, sustainLine); 
+            g.fillEllipse(decayPoint - 5, sustainLine - 5, 10.0f, 10.0f);
 
-       //Attack circle 
+            //sustain
+            ADSR.lineTo(getWidth(), sustainLine); 
+
+            g.strokePath(ADSR, juce::PathStrokeType(1)); 
+        }
+
+       
     }
 
     g.setColour(juce::Colours::black);

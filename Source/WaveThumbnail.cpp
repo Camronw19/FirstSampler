@@ -15,6 +15,8 @@
 WaveThumbnail::WaveThumbnail(FirstSamplerAudioProcessor& p)
     : audioProcessor(p), sampleWave(p)
 {
+    setLookAndFeel(&LAF); 
+
     mLoadButton.onClick = [&]()
     {
         sampleWave.setFileName(audioProcessor.loadFile());
@@ -56,6 +58,7 @@ WaveThumbnail::WaveThumbnail(FirstSamplerAudioProcessor& p)
     mPolyMenu.addItem("4", 4);
     mPolyMenu.setColour(juce::ComboBox::backgroundColourId, juce::Colour::fromRGB(65, 69, 86)); 
     mPolyMenu.setColour(juce::ComboBox::ColourIds::buttonColourId, juce::Colour::fromRGB(65, 69, 86));
+    
     polyAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.getAPVTS(), "POLY", mPolyMenu);
     addAndMakeVisible(mPolyMenu); 
 
@@ -65,11 +68,13 @@ WaveThumbnail::WaveThumbnail(FirstSamplerAudioProcessor& p)
 
 WaveThumbnail::~WaveThumbnail()
 {
+    setLookAndFeel(nullptr); 
 }
 
 void WaveThumbnail::paint (juce::Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background 
+  //  g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background 
+    g.fillAll (getParentComponent()->getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 }
 
 void WaveThumbnail::resized()

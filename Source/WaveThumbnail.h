@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "AudioWave.h"
+#include "CustomLF.h"
 
 //==============================================================================
 /*
@@ -26,6 +27,7 @@ public:
     void resized() override;
 
 private:
+    CustomLAF LAF; 
     AudioWave sampleWave;
     juce::TextButton mLoadButton{ "Load" };
     juce::TextButton mShowADSR; 

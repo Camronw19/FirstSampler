@@ -35,7 +35,7 @@ void AudioWave::paint (juce::Graphics& g)
     
     juce::AudioSampleBuffer* waveForm = &audioProcessor.getWaveForm(); //pointer ro wave form
     
-    if (waveForm->getNumSamples() > 0)
+    if (waveForm->getNumSamples() > 0 && !mPaintADSR)
     {
         //wave drawing============================================================
         g.setColour(juce::Colour::fromRGB(246, 133, 84));
@@ -92,48 +92,49 @@ void AudioWave::paint (juce::Graphics& g)
             g.strokePath(playheadHead, juce::PathStrokeType(1));
             g.fillPath(playheadHead); 
         }
+    }
 
-        //ADSR=========================================================================
-        if (mPaintADSR)
-        {
-            float attack = audioProcessor.getAPVTS().getRawParameterValue("ATTACK")->load();
-            float sampleLength = audioProcessor.getSampleLength(); 
-            const float lineHeight = getHeight() - getHeight() / 1.5;
-            float attackPoint = ((getWidth() / sampleLength) * attack) + 5; 
+    //ADSR=========================================================================
+    if (mPaintADSR)
+    {
+        float yLowerBound = getHeight() - 20; 
+        float attack = audioProcessor.getAPVTS().getRawParameterValue("ATTACK")->load();
+        const float lineHeight = getHeight() - getHeight() / 1.5;
+        float attackPoint = ((getWidth() / 18) * attack) + 15;
 
-            float decay = audioProcessor.getAPVTS().getRawParameterValue("DECAY")->load();
-            float decayPoint = (attackPoint + (getWidth() / sampleLength) * decay);
+        float decay = audioProcessor.getAPVTS().getRawParameterValue("DECAY")->load();
+        float decayPoint = (attackPoint + (getWidth() / 18) * decay);
 
-            float sustain = 1 -  (audioProcessor.getAPVTS().getRawParameterValue("SUSTAIN")->load());
-            float sustainLine = juce::jmap<float>(sustain, 0, 1, lineHeight, getHeight() - 10);
+        float sustain = 1 - (audioProcessor.getAPVTS().getRawParameterValue("SUSTAIN")->load());
+        float sustainLine = juce::jmap<float>(sustain, 0, 1, lineHeight, yLowerBound + 5);
+        float sustainPoint = getWidth() - 150; 
 
-            g.setColour(juce::Colours::white); 
-            juce::Path ADSR; 
-            ADSR.startNewSubPath(5, getHeight() - 5); 
-       
-            //attack
-            if (attackPoint < getWidth() - 20)
-            {
-                 ADSR.lineTo(attackPoint, lineHeight);
-                 g.fillEllipse(attackPoint - 5, lineHeight - 5, 10.0f, 10.0f); 
-            }
-            else
-            {
-                ADSR.lineTo(getWidth() - 20, lineHeight);
-                g.fillEllipse(getWidth() - 20, lineHeight - 5, 10.0f, 10.0f);
-            }
+        float release = audioProcessor.getAPVTS().getRawParameterValue("RELEASE")->load();
+        float releasePoint = (sustainPoint + (getWidth() / 18) * release);
+        //float releasePoint = juce::jmap<float>(release, 0, 5, sustainPoint, getWidth() - 15); 
 
-            //decay
-            ADSR.lineTo(decayPoint, sustainLine); 
-            g.fillEllipse(decayPoint - 5, sustainLine - 5, 10.0f, 10.0f);
+        g.setColour(juce::Colours::white);
+        juce::Path ADSR;
+        ADSR.startNewSubPath(15, getHeight() - 15);
+        g.fillEllipse(10, yLowerBound, 10.0f, 10.0f);
 
-            //sustain
-            ADSR.lineTo(getWidth(), sustainLine); 
 
-            g.strokePath(ADSR, juce::PathStrokeType(1)); 
-        }
+        //attack
+        ADSR.lineTo(attackPoint, lineHeight);
+        g.fillEllipse(attackPoint - 5, lineHeight - 5, 10.0f, 10.0f);
 
-       
+        //decay
+        ADSR.lineTo(decayPoint, sustainLine);
+        g.fillEllipse(decayPoint - 5, sustainLine - 5, 10.0f, 10.0f);
+
+        //sustain
+        ADSR.lineTo(sustainPoint, sustainLine);
+        
+        //release
+        ADSR.lineTo(releasePoint, getHeight() - 15); 
+        g.fillEllipse(releasePoint - 5, yLowerBound, 10.0f, 10.0f);
+
+        g.strokePath(ADSR, juce::PathStrokeType(1));
     }
 
     g.setColour(juce::Colours::black);

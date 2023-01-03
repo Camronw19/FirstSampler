@@ -39,11 +39,11 @@ WaveThumbnail::WaveThumbnail(FirstSamplerAudioProcessor& p)
         sampleWave.paintADSR(); 
         if (sampleWave.isPaintingADSR())
         {
-            mShowADSR.setButtonText("Hide ADSR"); 
+            mShowADSR.setButtonText("Sample View"); 
         }
         else
         {
-            mShowADSR.setButtonText("Show ADSR");
+            mShowADSR.setButtonText("ADSR View");
         }
     };
 

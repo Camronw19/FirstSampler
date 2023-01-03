@@ -289,6 +289,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout FirstSamplerAudioProcessor::
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Susatain", 0.0f, 1.0f, 1.0f));
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "Release", 0.0f, 5.0f, 2.0f));
     params.emplace_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.0f, 1.0f, 0.2f));
+    params.emplace_back(std::make_unique<juce::AudioParameterInt>("POLY", "Poly", 0, 4, 3.));
+
 
 
     return { params.begin(), params.end() };
@@ -317,10 +319,19 @@ void FirstSamplerAudioProcessor::updateGain()
     currentGain = mAPVTS.getRawParameterValue("GAIN")->load();
 }
 
+void FirstSamplerAudioProcessor::updatePoly()
+{
+    mPoly = mAPVTS.getRawParameterValue("POLY")->load(); 
+    DBG(mPoly);
+}
+
 void FirstSamplerAudioProcessor::valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property)
 {
     updateADSR();
     updateGain(); 
+    
+    //updatePoly();
+   
 }
 
 //==============================================================================

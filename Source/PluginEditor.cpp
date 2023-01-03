@@ -11,7 +11,7 @@
 
 //==============================================================================
 FirstSamplerAudioProcessorEditor::FirstSamplerAudioProcessorEditor (FirstSamplerAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), mWaveThumbnail(p), mADSRSliders(p)
+    : AudioProcessorEditor (&p), audioProcessor (p), mWaveThumbnail(p), mADSRSliders(p, mWaveThumbnail)
 {
 
     getLookAndFeel().setColour(juce::ResizableWindow::backgroundColourId, juce::Colour::fromRGB(223, 225, 228));
@@ -84,14 +84,14 @@ void FirstSamplerAudioProcessorEditor::timerCallback()
 
     if (audioProcessor.isNotePlayed())
     {
-        mWaveThumbnail.getChildComponent(1)->repaint(); 
+        mWaveThumbnail.getChildComponent(3)->repaint(); 
         ResetPlayhead = true; 
     }
     else
     {
         if (ResetPlayhead)
         {
-            mWaveThumbnail.getChildComponent(1)->repaint();
+            mWaveThumbnail.getChildComponent(3)->repaint();
             ResetPlayhead = false; 
         }
     }

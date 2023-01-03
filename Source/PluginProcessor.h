@@ -65,11 +65,14 @@ public:
     
     void updateGain(); 
     void updateADSR(); 
+    void updatePoly();
     juce::ADSR::Parameters& getADSRParams() { return mADSRParameters;  }
     juce::AudioProcessorValueTreeState& getAPVTS() { return mAPVTS; }
 
     std::atomic<bool>& isNotePlayed() { return mIsNotePlayed; }
     std::atomic<int>& getSampleCount() { return mSampleCount; }
+
+    float getSampleLength() { return mFormatReader->lengthInSamples / getSampleRate(); }
 
 private:
     juce::Synthesiser mSampler; 
@@ -87,6 +90,7 @@ private:
     std::atomic<bool> mIsNotePlayed{ false }; 
     std::atomic<int> mSampleCount{ 0 }; 
     std::atomic<float> currentGain{.015};
+    std::atomic<int> mPoly{ 3 }; 
     float previousGain{ 0 }; 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FirstSamplerAudioProcessor)

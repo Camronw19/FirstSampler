@@ -26,13 +26,15 @@ public:
     void resized() override;
 
 private:
+    AudioWave sampleWave;
+    juce::TextButton mLoadButton{ "Load" };
+    juce::TextButton mShowADSR; 
+    juce::ComboBox mPolyMenu; 
+    
     juce::Font mButtonFont{ 16.0f, juce::Font::bold };
     
-    
-    juce::TextButton mLoadButton{ "Load" };
-    juce::ComboBox mPolyMenu; 
-    AudioWave sampleWave;
 
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> polyAttachment;
     FirstSamplerAudioProcessor& audioProcessor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveThumbnail)
